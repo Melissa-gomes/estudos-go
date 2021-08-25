@@ -13,7 +13,7 @@ import (
 const monitoring = 3
 const delay = 5
 
-//fmt.Println("O tipo da variavel nome é", reflect.TypeOf(nome))
+//	fmt.Println("O tipo da variavel nome é", reflect.TypeOf(nome))
 // "%d" -----> diz que esta esperando receber um inteiro que vai modificar a variavel command
 // Scan ----> Usado para captura de input
 /* if command == 1 {
@@ -24,7 +24,7 @@ fmt.Println("Iniciando Monitoramento...")
 		fmt.Println("Fechando o programa. Bye")
 		} else {
 			fmt.Println("Não reconheço este comando")
-			}*/
+			}	*/
 
 func main() {
 
