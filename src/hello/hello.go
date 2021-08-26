@@ -4,8 +4,10 @@ import (
 	"bufio"
 	"fmt"
 	"io"
+	"io/ioutil"
 	"net/http"
 	"os"
+	"strconv"
 	"strings"
 	"time"
 )
@@ -40,6 +42,7 @@ func main() {
 			initMonitoring()
 		case 2:
 			fmt.Println("Aqui estão os logs")
+			printsLogs()
 		case 0:
 			fmt.Println("Fechando o programa. Bye")
 			os.Exit(0)
@@ -98,8 +101,10 @@ func testingSites(site string) {
 
 	if res.StatusCode == 200 {
 		fmt.Println("Site", site, "foi carregado com sucesso!")
+		registerLogs(site, true)
 	} else {
 		fmt.Println("Site", site, "está com problemas. Status code:", res.StatusCode)
+		registerLogs(site, false)
 	}
 }
 
@@ -131,4 +136,26 @@ func readData() []string {
 	data.Close()
 
 	return sites
+}
+
+func registerLogs(site string, status bool) {
+	logs, err := os.OpenFile("logs.txt", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+
+	if err != nil {
+		fmt.Println("Ocorreu um erro:", err)
+	}
+
+	logs.WriteString(time.Now().Format("02/01/2006 15:04:05") + " - " + site + " - online: " + strconv.FormatBool(status) + "\n")
+
+	logs.Close()
+}
+
+func printsLogs() {
+	logs, err := ioutil.ReadFile("logs.txt")
+
+	if err != nil {
+		fmt.Println("Ocorreu um erro:", err)
+	}
+
+	fmt.Println(string(logs))
 }
